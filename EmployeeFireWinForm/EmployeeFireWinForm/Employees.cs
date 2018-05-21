@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace EmployeeFireWinForm
 {
@@ -31,6 +32,16 @@ namespace EmployeeFireWinForm
         {
             if (_connection != null)
                 _connection.Close();
+        }
+        //-----------------------------------------------------------------
+        private string FormatDate(string date)
+        {
+            if (date != "")
+            {
+                date = date.Remove(9);
+            }
+            
+            return date;
         }
         //-----------------------------------------------------------------
         public List<Worker> GetAllWorkers()
@@ -62,8 +73,8 @@ namespace EmployeeFireWinForm
                     worker.StateProvinceName = Convert.ToString(reader["StateProvinceName"]);
                     worker.PostalCode = Convert.ToString(reader["PostalCode"]);
                     worker.CountryRegionName = Convert.ToString(reader["CountryRegionName"]);
-                    worker.StartDate = Convert.ToString(reader["StartDate"]);
-                    worker.EndDate = Convert.ToString(reader["EndDate"]);
+                    worker.StartDate = FormatDate(reader["StartDate"].ToString());
+                    worker.EndDate = FormatDate(reader["EndDate"].ToString());
 
                     workers.Add(worker);
                 }
@@ -77,17 +88,30 @@ namespace EmployeeFireWinForm
             }
         }
         //-----------------------------------------------------------------
-        public void FiredWorker(int id)
+        public bool FiredWorker(int id)
         {
             try
             {
-                SqlCommand command = _connection.CreateCommand();
-                command.CommandText = "UPDATE Employees SET EndDate = FORMAT(GETDATE(), N'yyyy/MM/dd') WHERE BusinessEntityID = @id";
+                var result = MessageBox.Show("Fired?", "Caution!", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.Yes)
+                {
+                    SqlCommand command = _connection.CreateCommand();
+                    command.CommandText = "UPDATE Employees SET EndDate = FORMAT(GETDATE(), N'yyyy-MM-dd') WHERE BusinessEntityID = @id";
+
+                    SqlParameter parameter = new SqlParameter("id", id);
+                    command.Parameters.Add(parameter);
+
+                    command.ExecuteNonQuery();
+
+                    return true;
+                }
+
+                return false;
             }
             catch (SqlException)
             {
-
-                throw;
+                return false;
             }
         }
         //-----------------------------------------------------------------
