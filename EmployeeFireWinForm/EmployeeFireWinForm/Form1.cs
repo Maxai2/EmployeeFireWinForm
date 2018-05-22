@@ -75,6 +75,11 @@ namespace EmployeeFireWinForm
                 tbPostCode.Text = workers[index]?.PostalCode;
                 tbStartDate.Text = workers[index].StartDate.ToString();
                 tbEndDate.Text = workers[index].EndDate.ToString();
+                
+                if (tbEndDate.Text != "")
+                    bFired.Enabled = false;
+                else
+                    bFired.Enabled = true;
             }
         }
     }
