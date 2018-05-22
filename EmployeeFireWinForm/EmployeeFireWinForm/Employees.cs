@@ -73,8 +73,12 @@ namespace EmployeeFireWinForm
                     worker.StateProvinceName = Convert.ToString(reader["StateProvinceName"]);
                     worker.PostalCode = Convert.ToString(reader["PostalCode"]);
                     worker.CountryRegionName = Convert.ToString(reader["CountryRegionName"]);
-                    worker.StartDate = FormatDate(reader["StartDate"].ToString());
-                    worker.EndDate = FormatDate(reader["EndDate"].ToString());
+                    worker.StartDate = Convert.ToDateTime(FormatDate(reader["StartDate"].ToString()));
+
+                    string tempEndDate = FormatDate(reader["EndDate"].ToString());
+
+                    worker.EndDate = Convert.ToDateTime(tempEndDate == "" ? null : tempEndDate);
+                    //worker.EndDate = Convert.ToDateTime(value: reader["EndDate"].ToString() == "" ? null : reader["EndDate"].ToString());
 
                     workers.Add(worker);
                 }

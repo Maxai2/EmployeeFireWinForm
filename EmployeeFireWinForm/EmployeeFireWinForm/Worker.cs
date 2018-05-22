@@ -24,8 +24,8 @@ namespace EmployeeFireWinForm
         public string StateProvinceName { get; set; }
         public string PostalCode { get; set; }
         public string CountryRegionName { get; set; }
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         //------------------------------------------------------------------------------------------
         public string Info { get { return FirstLastName(); } }
         //------------------------------------------------------------------------------------------

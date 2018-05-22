@@ -44,7 +44,7 @@ namespace EmployeeFireWinForm
             {
                 if (_db.FiredWorker(index))
                 {
-                    workers[index].EndDate = DateTime.Today.Date.ToString("dd-MMM-yy");
+                    workers[index].EndDate = DateTime.Today.Date;
 
                     tbEndDate.Text = workers[index].EndDate.ToString();
                 }
